@@ -180,16 +180,24 @@
     }
   });
 
+   const attendeesList = document.getElementById('attendees-list');
+
   const fetchAttendees = async () => {
-    const sheetCSV = "https://docs.google.com/spreadsheets/d/1D2l7mr6G-UVi-DtfcmA8ycy-QzlvedBalrlGN5py9mo/gviz/tq?tqx=output:csv";
-    const response = await fetch(url);
-  const text = await response.text();
-  const lines = text.trim().split('\\n').slice(1); // přeskočí hlavičku
-  attendeesList.innerHTML = lines.map(line => {
-    const name = line.split(',')[0];
-    return `<p>${name}</p>`;
-  }).join('');
-};
+    const csvURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vXYZxyz/pub?output=csv'; // ZDE VLOŽ TVŮJ CSV ODKAZ
+
+    try {
+      const response = await fetch(csvURL);
+      const text = await response.text();
+
+      const lines = text.trim().split('\\n').slice(1); // přeskočí hlavičku
+      const names = lines.map(line => line.split(',')[0]);
+
+      attendeesList.innerHTML = names.map(name => `<p>${name}</p>`).join('');
+    } catch (error) {
+      attendeesList.innerHTML = '<p style=\"color:red\">Nepodařilo se načíst seznam účastníků.</p>';
+      console.error('Chyba při načítání CSV:', error);
+    }
+  };
 
   fetchAttendees();
 </script>
