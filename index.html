@@ -7,8 +7,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #fdd835;
-      --accent: #ef5350;
+      --primary: #00c853;
+      --accent: #ff6f00;
       --bg: #fffde7;
       --text: #333;
     }
@@ -23,17 +23,16 @@
     }
 
     header {
-      position: relative;
       background-image: url("header-team.png");
       background-size: cover;
       background-position: center;
-      height: 400px;
+      height: 450px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       color: white;
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
     }
 
     header h1 {
@@ -44,7 +43,7 @@
 
     header .date {
       font-size: 2rem;
-      margin-top: 0.5rem;
+      margin-top: 1rem;
       font-weight: bold;
     }
 
@@ -83,7 +82,7 @@
     }
 
     button:hover {
-      background-color: #d32f2f;
+      background-color: #e65100;
     }
 
     #attendees-list p {
@@ -98,7 +97,7 @@
     }
 
     .program ul li::before {
-      content: '🌸';
+      content: '🌺';
       margin-right: 10px;
     }
 
@@ -143,10 +142,10 @@
   <section class="program">
     <h2>Program</h2>
     <ul>
-      <li>16:00 – Sraz a koktejly</li>
-      <li>16:30 – Od algoritmů po ananasy: AI workshop</li>
-      <li>18:00 – Limbo & soutěže</li>
-      <li>20:00 – Pivko a tanečky pod palmami</li>
+      <li>16:00 – Sraz u palem a koktejl bar</li>
+      <li>16:30 – AI workshop: Od algoritmů po ananasy</li>
+      <li>18:00 – Limbo challenge a tropické soutěže</li>
+      <li>20:00 – Taneční show, drinky & DJ v džungli</li>
     </ul>
   </section>
 
@@ -156,12 +155,12 @@
   </footer>
 
   <script>
-    const sheetID = '1D2l7mr6G-UVi-DtfcmA8ycy-QzlvedBalrlGN5py9mo';
+    const sheetID = 'TVUJ_SHEET_ID';
     const form = document.getElementById('rsvp-form');
     const attendeesList = document.getElementById('attendees-list');
 
     const submitToGoogleSheets = async (name) => {
-      const endpoint = `https://script.google.com/macros/s/AKfycbxVc3wwjwncPxyQCPnt0D3ee5L8h4SNxdeK7Oj8IFc5qb-YZZBh1FV8q5xn8_AymObSVw/exec`;
+      const endpoint = `https://script.google.com/macros/s/YOUR_DEPLOYED_SCRIPT_URL/exec`;
       await fetch(endpoint, {
         method: 'POST',
         mode: 'no-cors',
@@ -181,7 +180,7 @@
     });
 
     const fetchAttendees = async () => {
-      const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTuiLyKbjxX0aek0Ucjl2XFvPbw_YkCCg3jaP1xDMZFZqsAxjjftirEN8Qd7E_Hcro-Ek4289OsJ6wJ/pub?gid=0&single=true&output=csv';
+      const url = 'https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/gviz/tq?tqx=out:csv';
       const response = await fetch(url);
       const text = await response.text();
       const lines = text.trim().split('\n').slice(1);
