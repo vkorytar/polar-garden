@@ -4,154 +4,191 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Polar Garden Party 2025</title>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary: #fdd835;
+      --accent: #ef5350;
+      --bg: #fffde7;
+      --text: #333;
+    }
+
     body {
-      font-family: 'Roboto', sans-serif;
-      background: linear-gradient(to bottom, #ffe9c8, #ffccbc);
+      font-family: 'Fredoka', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
       margin: 0;
       padding: 0;
-      color: #333;
-    }
-    header {
       text-align: center;
-      background-color: #ff7043;
+    }
+
+    header {
+      position: relative;
+      background-image: url("header-team.png");
+      background-size: cover;
+      background-position: center;
+      height: 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       color: white;
-      padding: 30px 20px;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
     }
-    header img {
-      max-width: 200px;
-      margin-bottom: 20px;
-    }
+
     header h1 {
       font-family: 'Pacifico', cursive;
-      font-size: 56px;
-      margin: 10px 0;
+      font-size: 4rem;
+      margin: 0;
     }
+
     header .date {
-      font-size: 32px;
+      font-size: 2rem;
+      margin-top: 0.5rem;
       font-weight: bold;
     }
-    .team-photo {
-      width: 100%;
-      max-width: 1000px;
-      display: block;
-      margin: 30px auto;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
-    }
+
     section {
+      margin: 40px auto;
       max-width: 800px;
-      margin: 0 auto 40px;
-      padding: 20px;
-      background: #ffffffcc;
-      border-radius: 15px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
+
     section h2 {
       font-family: 'Pacifico', cursive;
-      font-size: 32px;
+      color: var(--accent);
+      font-size: 2.5rem;
       margin-bottom: 20px;
     }
-    form input, form button {
+
+    input, button {
+      padding: 1rem;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin: 10px;
       width: 80%;
       max-width: 400px;
-      margin: 10px auto;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      display: block;
     }
-    form button {
-      background-color: #ff7043;
+
+    button {
+      background-color: var(--accent);
       color: white;
+      font-weight: bold;
       cursor: pointer;
       transition: background 0.3s ease;
     }
-    form button:hover {
-      background-color: #ff5722;
+
+    button:hover {
+      background-color: #d32f2f;
     }
-    #attendees {
-      text-align: left;
-      margin-top: 10px;
+
+    #attendees-list p {
       font-weight: bold;
+      margin: 5px 0;
     }
-    .program {
-      font-size: 18px;
-      line-height: 1.6;
-      background-color: #fff3e0;
+
+    .program ul {
+      list-style: none;
+      padding: 0;
+      font-size: 1.2rem;
     }
+
+    .program ul li::before {
+      content: '🌸';
+      margin-right: 10px;
+    }
+
+    footer {
+      margin-top: 40px;
+      background-color: #fff8e1;
+      padding: 20px;
+    }
+
     footer img {
       width: 100%;
-      max-width: 800px;
-      margin: 20px auto;
-      display: block;
-      border-radius: 15px;
+      max-width: 1000px;
+      border-radius: 20px;
+    }
+
+    footer p {
+      font-style: italic;
+      margin-top: 10px;
+      color: #555;
     }
   </style>
 </head>
 <body>
   <header>
-    <img src="logo.png" alt="Polar Logo">
     <h1>Polar Garden Party</h1>
     <div class="date">17. 6. 2025</div>
   </header>
 
-  <img class="team-photo" src="team.png" alt="Polar tým">
+  <section>
+    <h2>Potvrď účast</h2>
+    <form id="rsvp-form">
+      <input type="text" id="name" placeholder="Tvé jméno" required>
+      <button type="submit">Potvrdit</button>
+    </form>
+  </section>
 
   <section>
-    <h2>Potvrdíš účast?</h2>
-    <form id="rsvp-form">
-      <input type="text" id="name" placeholder="Tvé jméno" required><br>
-      <button type="submit">Odeslat</button>
-    </form>
-    <div id="attendees"></div>
+    <h2>Účastníci</h2>
+    <div id="attendees-list">Načítání seznamu...</div>
   </section>
 
   <section class="program">
     <h2>Program</h2>
-    <p>
-      16:00 – sraz, začátek<br>
-      16:15 – Polar AI workshop<br>
-      18:00 – pivo<br>
-      22:00 – tanečky<br><br>
-      🍺 Po celou dobu: čepované pivko, hot dogy a další dobroty 🌭
-    </p>
+    <ul>
+      <li>16:00 – Sraz a koktejly</li>
+      <li>16:30 – Od algoritmů po ananasy: AI workshop</li>
+      <li>18:00 – Limbo & soutěže</li>
+      <li>20:00 – Pivko a tanečky pod palmami</li>
+    </ul>
   </section>
 
   <footer>
-    <img src="foodtruck.png" alt="Foodtruck s pivem a hot dogy">
+    <img src="footer-truck.png" alt="Foodtruck s pivem a hot dogy">
+    <p>Vytvořil AI s Véna za dobu jednoho dílu seriálu.</p>
   </footer>
 
   <script>
+    const sheetID = 'TVUJ_SHEET_ID';
     const form = document.getElementById('rsvp-form');
-    const attendeesDiv = document.getElementById('attendees');
+    const attendeesList = document.getElementById('attendees-list');
 
-    // Load existing attendees from localStorage (simple local db)
-    const attendees = JSON.parse(localStorage.getItem('attendees')) || [];
-
-    function renderAttendees() {
-      attendeesDiv.innerHTML = '';
-      attendees.forEach(name => {
-        const entry = document.createElement('p');
-        entry.textContent = name;
-        attendeesDiv.appendChild(entry);
+    const submitToGoogleSheets = async (name) => {
+      const endpoint = `https://script.google.com/macros/s/AKfycbxVc3wwjwncPxyQCPnt0D3ee5L8h4SNxdeK7Oj8IFc5qb-YZZBh1FV8q5xn8_AymObSVw/exec`;
+      await fetch(endpoint, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `name=${encodeURIComponent(name)}`
       });
     }
-
-    renderAttendees();
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       const name = document.getElementById('name').value.trim();
-      if (name && !attendees.includes(name)) {
-        attendees.push(name);
-        localStorage.setItem('attendees', JSON.stringify(attendees));
-        renderAttendees();
+      if (name) {
+        submitToGoogleSheets(name);
+        fetchAttendees();
         form.reset();
       }
     });
+
+    const fetchAttendees = async () => {
+      const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTuiLyKbjxX0aek0Ucjl2XFvPbw_YkCCg3jaP1xDMZFZqsAxjjftirEN8Qd7E_Hcro-Ek4289OsJ6wJ/pub?gid=0&single=true&output=csv';
+      const response = await fetch(url);
+      const text = await response.text();
+      const lines = text.trim().split('\n').slice(1);
+      attendeesList.innerHTML = lines.map(line => `<p>${line.split(',')[0]}</p>`).join('');
+    };
+
+    fetchAttendees();
   </script>
 </body>
 </html>
