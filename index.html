@@ -155,12 +155,12 @@
   </footer>
 
   <script>
-    const sheetID = 'TVUJ_SHEET_ID';
+    const sheetID = '1D2l7mr6G-UVi-DtfcmA8ycy-QzlvedBalrlGN5py9mo';
     const form = document.getElementById('rsvp-form');
     const attendeesList = document.getElementById('attendees-list');
 
     const submitToGoogleSheets = async (name) => {
-      const endpoint = `https://script.google.com/macros/s/YOUR_DEPLOYED_SCRIPT_URL/exec`;
+      const endpoint = `https://script.google.com/macros/s/AKfycbxVc3wwjwncPxyQCPnt0D3ee5L8h4SNxdeK7Oj8IFc5qb-YZZBh1FV8q5xn8_AymObSVw/exec`;
       await fetch(endpoint, {
         method: 'POST',
         mode: 'no-cors',
@@ -180,7 +180,7 @@
     });
 
     const fetchAttendees = async () => {
-      const url = 'https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/gviz/tq?tqx=out:csv';
+      const url = 'https://docs.google.com/spreadsheets/d/1D2l7mr6G-UVi-DtfcmA8ycy-QzlvedBalrlGN5py9mo/gviz/tq?tqx=out:csv';
       const response = await fetch(url);
       const text = await response.text();
       const lines = text.trim().split('\n').slice(1);
