@@ -4,55 +4,90 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Polar Garden Party 2025</title>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: url('background.jpg') no-repeat center center fixed;
-      background-size: cover;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(to bottom, #ffe9c8, #ffccbc);
       margin: 0;
       padding: 0;
-      color: #fff;
-      text-align: center;
+      color: #333;
     }
     header {
-      background: rgba(0,0,0,0.6);
-      padding: 20px;
+      text-align: center;
+      background-color: #ff7043;
+      color: white;
+      padding: 30px 20px;
     }
     header img {
       max-width: 200px;
+      margin-bottom: 20px;
     }
     header h1 {
       font-family: 'Pacifico', cursive;
-      font-size: 48px;
+      font-size: 56px;
       margin: 10px 0;
     }
-    section {
-      background: rgba(0,0,0,0.5);
-      margin: 20px;
-      padding: 20px;
-      border-radius: 10px;
+    header .date {
+      font-size: 32px;
+      font-weight: bold;
     }
-    form input, form textarea, form button {
-      margin: 10px;
+    .team-photo {
+      width: 100%;
+      max-width: 1000px;
+      display: block;
+      margin: 30px auto;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    }
+    section {
+      max-width: 800px;
+      margin: 0 auto 40px;
+      padding: 20px;
+      background: #ffffffcc;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    section h2 {
+      font-family: 'Pacifico', cursive;
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+    form input, form button {
+      width: 80%;
+      max-width: 400px;
+      margin: 10px auto;
       padding: 10px;
       font-size: 16px;
       border-radius: 5px;
-      border: none;
+      border: 1px solid #ccc;
+      display: block;
+    }
+    form button {
+      background-color: #ff7043;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    form button:hover {
+      background-color: #ff5722;
     }
     #attendees {
       text-align: left;
-      max-width: 600px;
-      margin: 0 auto;
+      margin-top: 10px;
+      font-weight: bold;
     }
     .program {
       font-size: 18px;
       line-height: 1.6;
+      background-color: #fff3e0;
     }
     footer img {
       width: 100%;
-      max-width: 600px;
-      margin-top: 20px;
+      max-width: 800px;
+      margin: 20px auto;
+      display: block;
+      border-radius: 15px;
     }
   </style>
 </head>
@@ -60,23 +95,18 @@
   <header>
     <img src="logo.png" alt="Polar Logo">
     <h1>Polar Garden Party</h1>
-    <p>17. června 2025</p>
+    <div class="date">17. 6. 2025</div>
   </header>
 
-  <section>
-    <h2>Potvrdíte účast?</h2>
-    <form id="rsvp-form">
-      <input type="text" placeholder="Vaše jméno" required><br>
-      <textarea placeholder="Poznámka (např. přijdu s partnerem)"></textarea><br>
-      <button type="submit">Odeslat</button>
-    </form>
-  </section>
+  <img class="team-photo" src="team.jpg" alt="Polar tým">
 
   <section>
-    <h2>Účastní se:</h2>
-    <div id="attendees">
-      <!-- Dynamický výpis účastníků -->
-    </div>
+    <h2>Potvrdíš účast?</h2>
+    <form id="rsvp-form">
+      <input type="text" id="name" placeholder="Tvé jméno" required><br>
+      <button type="submit">Odeslat</button>
+    </form>
+    <div id="attendees"></div>
   </section>
 
   <section class="program">
@@ -85,9 +115,8 @@
       16:00 – sraz, začátek<br>
       16:15 – Polar AI workshop<br>
       18:00 – pivo<br>
-      22:00 – tanečky<br>
-      <br>
-      Po celou dobu: čepované pivko, hot dogy a další dobroty 🍻🌭
+      22:00 – tanečky<br><br>
+      🍺 Po celou dobu: čepované pivko, hot dogy a další dobroty 🌭
     </p>
   </section>
 
@@ -97,16 +126,31 @@
 
   <script>
     const form = document.getElementById('rsvp-form');
-    const attendees = document.getElementById('attendees');
+    const attendeesDiv = document.getElementById('attendees');
+
+    // Load existing attendees from localStorage (simple local db)
+    const attendees = JSON.parse(localStorage.getItem('attendees')) || [];
+
+    function renderAttendees() {
+      attendeesDiv.innerHTML = '';
+      attendees.forEach(name => {
+        const entry = document.createElement('p');
+        entry.textContent = name;
+        attendeesDiv.appendChild(entry);
+      });
+    }
+
+    renderAttendees();
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
-      const name = form.querySelector('input').value;
-      const note = form.querySelector('textarea').value;
-      const entry = document.createElement('p');
-      entry.innerText = `${name}${note ? ' – ' + note : ''}`;
-      attendees.appendChild(entry);
-      form.reset();
+      const name = document.getElementById('name').value.trim();
+      if (name && !attendees.includes(name)) {
+        attendees.push(name);
+        localStorage.setItem('attendees', JSON.stringify(attendees));
+        renderAttendees();
+        form.reset();
+      }
     });
   </script>
 </body>
