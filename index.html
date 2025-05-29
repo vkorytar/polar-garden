@@ -154,12 +154,34 @@
     <p>Vytvořil AI s Véna za dobu jednoho dílu seriálu.</p>
   </footer>
 
-  <script>
+<script>
   const form = document.getElementById('rsvp-form');
   const attendeesList = document.getElementById('attendees-list');
 
   const endpoint = "https://script.google.com/macros/s/AKfycbyQ97_iTxm_7Sewc3KmIN1r2IZqJgkzh-iJtJe8xNWNaJBpR178EtjeuySnTQXhKjjyag/exec";
   const csvURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTuiLyKbjxX0aek0Ucjl2XFvPbw_YkCCg3jaP1xDMZFZqsAxjjftirEN8Qd7E_Hcro-Ek4289OsJ6wJ/pub?gid=0&single=true&output=csv";
+
+  const nicknames = [
+    "piják koktejlů 🍹",
+    "král limba 🕺",
+    "lovec ananasů 🍍",
+    "bojovník s tiki 🔥",
+    "mistr tanečků 💃",
+    "válečník s věncem 🌺",
+    "grilmajstr 🌭",
+    "DJ pod palmou 🎧",
+    "šampion v kokosu 🥥",
+    "sluneční jezdec ☀️"
+  ];
+
+  const moods = ["😎", "🌞", "🕶", "🎉", "🦩", "🍻", "🏄", "🛟", "🌈", "🎵"];
+
+  const firstParts = ["Koko", "Lulu", "Maka", "Tiki", "Aloha", "Mojo", "Bora", "Nalu"];
+  const secondParts = ["Boom", "Swing", "Tuna", "Dance", "Juice", "Fire", "Shaka", "Chill"];
+
+  const randomHawaiianName = () =>
+    firstParts[Math.floor(Math.random() * firstParts.length)] +
+    secondParts[Math.floor(Math.random() * secondParts.length)];
 
   const submitToGoogleSheets = async (name) => {
     await fetch(endpoint, {
@@ -175,14 +197,18 @@
     try {
       const response = await fetch(csvURL);
       const text = await response.text();
+      const rows = text.trim().split(/\r?\n/).slice(1);
+      const names = rows
+        .map(row => row.split(',')[0].replace(/^"|"$/g, '').trim())
+        .filter(name => name.length > 0);
 
-      // Detekce oddělovače: čárka nebo středník
-      const delimiter = text.includes(';') ? ';' : ',';
+      attendeesList.innerHTML = names.map(name => {
+        const nickname = nicknames[Math.floor(Math.random() * nicknames.length)];
+        const mood = moods[Math.floor(Math.random() * moods.length)];
+        const codeName = randomHawaiianName();
+        return `<p>${name} alias <strong>${codeName}</strong> – ${nickname} ${mood}</p>`;
+      }).join('');
 
-      const lines = text.trim().split(/\r?\n/).slice(1); // Přeskočí hlavičku
-      const names = lines.map(line => line.split(delimiter)[0].replace(/^"|"$/g, '').trim()).filter(name => name);
-
-      attendeesList.innerHTML = names.map(name => `<p>${name}</p>`).join('');
     } catch (error) {
       attendeesList.innerHTML = '<p style="color:red">Nepodařilo se načíst seznam účastníků.</p>';
       console.error('Chyba při načítání CSV:', error);
@@ -194,7 +220,7 @@
     const name = document.getElementById('name').value.trim();
     if (name) {
       submitToGoogleSheets(name);
-      setTimeout(fetchAttendees, 2000); // Počká 2 sekundy, než se CSV aktualizuje
+      setTimeout(fetchAttendees, 2000);
       form.reset();
     }
   });
