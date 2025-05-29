@@ -155,39 +155,40 @@
   </footer>
 
   <script>
-    const sheetID = '1D2l7mr6G-UVi-DtfcmA8ycy-QzlvedBalrlGN5py9mo';
-    const form = document.getElementById('rsvp-form');
-    const attendeesList = document.getElementById('attendees-list');
+  const form = document.getElementById('rsvp-form');
+  const attendeesList = document.getElementById('attendees-list');
 
-    const submitToGoogleSheets = async (name) => {
-      const endpoint = `https://script.google.com/macros/s/AKfycbxVc3wwjwncPxyQCPnt0D3ee5L8h4SNxdeK7Oj8IFc5qb-YZZBh1FV8q5xn8_AymObSVw/exec`;
-      await fetch(endpoint, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `name=${encodeURIComponent(name)}`
-      });
-    }
+  const endpoint = "https://script.google.com/macros/s/AKfycbxVc3wwjwncPxyQCPnt0D3ee5L8h4SNxdeK7Oj8IFc5qb-YZZBh1FV8q5xn8_AymObSVw/exec";
 
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const name = document.getElementById('name').value.trim();
-      if (name) {
-        submitToGoogleSheets(name);
-        fetchAttendees();
-        form.reset();
-      }
+  const submitToGoogleSheets = async (name) => {
+    await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `name=${encodeURIComponent(name)}`
     });
+  };
 
-    const fetchAttendees = async () => {
-      const url = 'https://docs.google.com/spreadsheets/d/1D2l7mr6G-UVi-DtfcmA8ycy-QzlvedBalrlGN5py9mo/gviz/tq?tqx=out:csv';
-      const response = await fetch(url);
-      const text = await response.text();
-      const lines = text.trim().split('\n').slice(1);
-      attendeesList.innerHTML = lines.map(line => `<p>${line.split(',')[0]}</p>`).join('');
-    };
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    if (name) {
+      submitToGoogleSheets(name);
+      fetchAttendees();
+      form.reset();
+    }
+  });
 
-    fetchAttendees();
-  </script>
+  const fetchAttendees = async () => {
+    const sheetCSV = "https://docs.google.com/spreadsheets/d/1D2l7mr6G-UVi-DtfcmA8ycy-QzlvedBalrlGN5py9mo/gviz/tq?tqx=out:csv";
+    const response = await fetch(sheetCSV);
+    const text = await response.text();
+    const lines = text.trim().split('\\n').slice(1);
+    attendeesList.innerHTML = lines.map(line => `<p>${line.split(',')[0]}</p>`).join('');
+  };
+
+  fetchAttendees();
+</script>
 </body>
 </html>
