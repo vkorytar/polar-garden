@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Polar Garden Party 2025</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url('background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+      color: #fff;
+      text-align: center;
+    }
+    header {
+      background: rgba(0,0,0,0.6);
+      padding: 20px;
+    }
+    header img {
+      max-width: 200px;
+    }
+    header h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: 48px;
+      margin: 10px 0;
+    }
+    section {
+      background: rgba(0,0,0,0.5);
+      margin: 20px;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    form input, form textarea, form button {
+      margin: 10px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+    }
+    #attendees {
+      text-align: left;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .program {
+      font-size: 18px;
+      line-height: 1.6;
+    }
+    footer img {
+      width: 100%;
+      max-width: 600px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="Polar Logo">
+    <h1>Polar Garden Party</h1>
+    <p>17. června 2025</p>
+  </header>
+
+  <section>
+    <h2>Potvrdíte účast?</h2>
+    <form id="rsvp-form">
+      <input type="text" placeholder="Vaše jméno" required><br>
+      <textarea placeholder="Poznámka (např. přijdu s partnerem)"></textarea><br>
+      <button type="submit">Odeslat</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>Účastní se:</h2>
+    <div id="attendees">
+      <!-- Dynamický výpis účastníků -->
+    </div>
+  </section>
+
+  <section class="program">
+    <h2>Program</h2>
+    <p>
+      16:00 – sraz, začátek<br>
+      16:15 – Polar AI workshop<br>
+      18:00 – pivo<br>
+      22:00 – tanečky<br>
+      <br>
+      Po celou dobu: čepované pivko, hot dogy a další dobroty 🍻🌭
+    </p>
+  </section>
+
+  <footer>
+    <img src="foodtruck.png" alt="Foodtruck s pivem a hot dogy">
+  </footer>
+
+  <script>
+    const form = document.getElementById('rsvp-form');
+    const attendees = document.getElementById('attendees');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = form.querySelector('input').value;
+      const note = form.querySelector('textarea').value;
+      const entry = document.createElement('p');
+      entry.innerText = `${name}${note ? ' – ' + note : ''}`;
+      attendees.appendChild(entry);
+      form.reset();
+    });
+  </script>
+</body>
+</html>
